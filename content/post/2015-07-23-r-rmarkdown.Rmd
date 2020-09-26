@@ -1,0 +1,74 @@
+---
+title: "Statistics About COVID-19 Cases in Toronto"
+author: "Frida Gomam"
+date: '2020-07-25T21:13:14-05:00'
+categories: R
+tags:
+- R Markdown
+- plot
+- regression
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+# Abstraction
+This website highlights four different data about the COVID-19 cases in Toronto. They are gender,age group, source of infection, outbreak associated types respectively.
+
+# Introduction
+
+All of this data sets are categorical rather than numerical, so my thoughts and finds are based on the internal analysis of each single set of data. In the following discussion, you will see 1.The ratio of men to women in Toronto's COVID-19 cases 2. What has the greatest impact on the spread of the virus? 3. What kind of population are susceptible? 4. and the outbreak associated types.
+
+# Data Introduction
+The data set I choose is supported from Toronto Open Data Portal.The topic of data set is about COVID-19 cases in Toronto.This data set contains demographic, geographic, and severity information for all confirmed and probable cases reported to and managed by Toronto Public Health since the first case was reported in January 2020 (reference at bottom).
+
+# Discussion about plots
+
+
+
+```{r gender}
+
+gender = COVID_statistics$`Client Gender`
+barplot(table(gender),main = "Gender of people infected with the new coronavirus",col = "aquamarine")
+```
+
+The number of men and women infected by the virus is roughly same. Considering difference in numbers of men and women and limitation of small data set, we may say that he chances of men and women infected by the virus is similar.
+
+
+```{r source}
+
+Source = COVID_statistics$`Source of Infection`
+barplot(table(Source),width = 10,space = 2,names.arg = c("Close Contact","Community","Healthcare","Institutional","Outbreak Associated","Pending","Travel","Unknown")  , main = "Different Sources of Infection" ,col = "red")
+
+```
+
+According to above plot, the main reasons leading to virus spreads are close contact and outbreak. That is the reason why keeping social distance is so important for epidemic prevention and control.
+
+
+```{r population}
+
+Age = COVID_statistics$`Age Group`
+number = c(1)
+ggplot(COVID_statistics,aes(x = Age,y = number))+geom_bar(stat = "identity",fill="steelblue")+ggtitle("Age at time of COVID-19 illness")
+
+```
+If you look only at the numbers, it seems that people between 20 and 60 years old are most susceptible to infection. However, we need to consider that the population model in Toronto is approximately normal which means many middle-aged people, few teenagers and old people. Thus, every population may be susceptible to the virus.
+
+
+
+```{r outbreak}
+
+Outbreak = COVID_statistics$`Outbreak Associated`
+barplot(table(Outbreak),main = "Outbreak Associated Types", col = "chartreuse")
+
+```
+According to the graph we could see that sporadic case are much more than outbreak associated cases.
+
+
+
+# Reference
+title = About COVID-19 Cases in Toronto,
+    publisher = Toronto Public Health,
+    year = 2020,
+    website link = https://open.toronto.ca/dataset/covid-19-cases-in-toronto/
